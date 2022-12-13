@@ -12,3 +12,20 @@ either to retrain on their own regularly thanks to newly labeled data
 either to raise alerts if there are risks that the model no longer works (distribution shift)
 
 Bonus: the model will be packaged in a docker container or will be deployed via Kubernetes / kubeflow
+
+---
+
+## Usage
+
+To start the api, run the following command:
+
+```bash
+cd src
+uvicorn api:app --reload
+```
+
+A simple request to the API can be done with:
+
+```bash
+python request.py
+```
