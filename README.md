@@ -17,6 +17,21 @@ Bonus: the model will be packaged in a docker container or will be deployed via 
 
 ## Usage
 
+### Training
+
+The training of the model is in the `src/train_model.py` file. It is possible to train the model with the following command:
+
+```bash
+cd src
+python train_model.py
+```
+
+A mlflow workflow is available to track the training. After a few training, to start the mlflow server, run the following command:
+
+```bash
+mlflow ui
+```
+
 To start the api, run the following command:
 
 ```bash
