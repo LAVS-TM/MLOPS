@@ -24,8 +24,9 @@ cd src
 uvicorn api:app --reload
 ```
 
-A simple request to the API can be done with:
+The streamlit front-end is available with the following command:
 
 ```bash
-python request.py
+cd src
+streamlit run model_app.py
 ```
