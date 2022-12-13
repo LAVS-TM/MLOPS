@@ -16,3 +16,15 @@ if st.button("Predict"):
         st.write(f"Predicted price: {y_pred['y_pred']:.0f} €")
     except:
         st.write("Error: could not connect to the API")
+
+
+col1, col2, col3 = st.columns([2,6,1])
+
+with col1:
+    st.write("")
+
+with col2:
+    st.image("../data/logo.jpg", width=400)
+
+with col3:
+    st.write("")
