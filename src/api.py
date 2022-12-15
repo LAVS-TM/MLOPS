@@ -5,7 +5,6 @@ import pandas as pd
 from data_generator import generate_dataframe
 from train_model import train_model
 
-
 app = FastAPI()
 
 @app.get("/predict")
