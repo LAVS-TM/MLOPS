@@ -1,11 +1,29 @@
 import streamlit as st
 import joblib
+import pandas as pd
 
 import request
 
 model = joblib.load("model.joblib")
 
 st.title("House price prediction")
+
+st.markdown("---")
+
+st.write("This dataset contains information about house prices and their various features.")
+st.write("It includes four columns: size, number of rooms, garden, and orientation.")
+st.write("The predicted column is the price column, which contains the predicted price of the house.")
+
+st.markdown("---")
+
+st.markdown("### Here is an overview of the dataset:")
+df = pd.read_csv("../data/houses.csv").head(5)
+st.dataframe(df)
+
+st.markdown("---")
+
+st.markdown("### Predict the price of a house:")
+
 size = st.number_input("Size (in m2)", min_value=0, max_value=1000, value=100)
 nb_rooms = st.number_input("Number of rooms", min_value=0, max_value=10, value=2)
 garden = st.checkbox("Garden")
@@ -18,6 +36,8 @@ if st.button("Predict"):
     except:
         st.write("Error: could not connect to the API")
 
+st.markdown("---")
+
 nb_samples = st.number_input("Number of samples", min_value=0, max_value=10000, value=1000)
 if st.button("Retrain model"):
     try:
@@ -26,6 +46,15 @@ if st.button("Retrain model"):
     except:
         st.write("Error: could not connect to the API")
 
+st.markdown("---")
+
+
+st.markdown("### Data drift")
+drift_df = pd.read_csv("datadrift_auc_train.csv")["auc"]
+st.area_chart(drift_df)
+
+st.markdown("---")
+
 col1, col2, col3 = st.columns([2,6,1])
 
 with col1:
@@ -33,6 +62,9 @@ with col1:
 
 with col2:
     st.image("../data/logo.jpg", width=400)
+    st.markdown("Project created by Alexandre Lemonnier and Victor Simnonin")
+
 
 with col3:
     st.write("")
+

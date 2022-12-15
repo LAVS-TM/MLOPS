@@ -8,6 +8,7 @@ from lightgbm import LGBMRegressor
 import joblib
 import mlflow
 import mlflow.sklearn
+from eurybia import SmartDrift
 
 import logging
 
@@ -19,6 +20,23 @@ def eval_metrics(actual, pred):
     mae = mean_absolute_error(actual, pred)
     r2 = r2_score(actual, pred)
     return rmse, mae, r2
+
+def eval_drift(df_current, df_baseline, model):
+    df_current.drop(["orientation"], axis=1, inplace=True)
+    df_baseline.drop(["orientation"], axis=1, inplace=True)
+    sd = SmartDrift(
+    df_current=df_current,
+    df_baseline=df_baseline,
+    deployed_model=model, # Optional: put in perspective result with importance on deployed model
+    dataset_names={"df_current": "", "df_baseline": ""} # Optional: Names for outputs
+    )
+
+    sd.compile(
+    full_validation=False, # Optional: to save time, leave the default False value. If True, analyze consistency on modalities between columns.
+    date_compile_auc='07/12/2022', # Optional: useful when computing the drift for a time that is not now
+    datadrift_file="datadrift_auc_train.csv", # Optional: name of the csv file that contains the performance history of data drift
+    )
+
 
 def train_model(data):
     # Split the data into training and test sets. (0.75, 0.25) split.
@@ -36,6 +54,9 @@ def train_model(data):
         predicted_qualities = model.predict(test_x)
 
         (rmse, mae, r2) = eval_metrics(test_y, predicted_qualities)
+
+        df_baseline = pd.read_csv("../data/houses.csv")
+        eval_drift(data, df_baseline, model)
 
         print("  RMSE: %s" % rmse)
         print("  MAE: %s" % mae)
