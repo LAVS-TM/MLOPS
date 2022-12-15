@@ -4,6 +4,8 @@ import pandas as pd
 
 import request
 
+from train_model import train_model
+
 model = joblib.load("model.joblib")
 
 st.title("House price prediction")
@@ -29,6 +31,21 @@ nb_rooms = st.number_input("Number of rooms", min_value=0, max_value=10, value=2
 garden = st.checkbox("Garden")
 orientation = st.selectbox("Orientation", ["North", "South", "East", "West"])
 
+drift_df = pd.read_csv("datadrift_auc_train.csv")["auc"]
+# check last row of drift_df
+if drift_df.iloc[-1] > 0.5:
+    st.warning("Data drift detected")
+
+    if st.button("Reset model"):
+        try:
+            df = pd.read_csv("../data/houses.csv")
+            df["orientation"] = df["orientation"].map({"Nord": 0, "Est": 1, "Sud": 2, "Ouest": 3})
+            train_model(df)
+            st.write("Model retrained")
+        except:
+            st.write("Error during model training")
+
+
 if st.button("Predict"):
     try:
         y_pred = request.predict_request(size, nb_rooms, garden, orientation)
@@ -38,7 +55,7 @@ if st.button("Predict"):
 
 st.markdown("---")
 
-nb_samples = st.number_input("Number of samples", min_value=0, max_value=10000, value=1000)
+nb_samples = st.number_input("Number of samples", min_value=0, max_value=100, value=10)
 if st.button("Retrain model"):
     try:
         request.retrain_request(nb_samples)
