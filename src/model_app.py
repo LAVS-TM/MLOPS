@@ -1,7 +1,7 @@
 import request
 import streamlit as st
 import joblib
-import pandas as 
+import pandas as pd
 import request
 
 from train_model import train_model
@@ -38,7 +38,8 @@ if drift_df.iloc[-1] > 0.5:
     if st.button("Reset model"):
         try:
             df = pd.read_csv("../data/houses.csv")
-            df["orientation"] = df["orientation"].map({"Nord": 0, "Est": 1, "Sud": 2, "Ouest": 3})
+            df["orientation"] = df["orientation"].map(
+                {"Nord": 0, "Est": 1, "Sud": 2, "Ouest": 3})
             train_model(df)
             st.write("Model retrained")
         except:
@@ -73,7 +74,7 @@ st.area_chart(drift_df)
 
 st.markdown("---")
 
-col1, col2, col3 = st.columns([2,6,1])
+col1, col2, col3 = st.columns([2, 6, 1])
 
 
 with col1:
