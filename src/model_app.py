@@ -1,12 +1,10 @@
+import request
 import streamlit as st
 import joblib
-import pandas as pd
-
+import pandas as 
 import request
 
 from train_model import train_model
-
-model = joblib.load("model.joblib")
 
 st.title("House price prediction")
 
@@ -27,7 +25,8 @@ st.markdown("---")
 st.markdown("### Predict the price of a house:")
 
 size = st.number_input("Size (in m2)", min_value=0, max_value=1000, value=100)
-nb_rooms = st.number_input("Number of rooms", min_value=0, max_value=10, value=2)
+nb_rooms = st.number_input(
+    "Number of rooms", min_value=0, max_value=10, value=2)
 garden = st.checkbox("Garden")
 orientation = st.selectbox("Orientation", ["North", "South", "East", "West"])
 
@@ -54,14 +53,16 @@ if st.button("Predict"):
         st.write("Error: could not connect to the API")
 
 st.markdown("---")
+nb_samples = st.number_input(
+    "Number of samples", min_value=0, max_value=10000, value=1000)
 
-nb_samples = st.number_input("Number of samples", min_value=0, max_value=100, value=10)
 if st.button("Retrain model"):
     try:
         request.retrain_request(nb_samples)
         st.write("Model retrained")
     except:
         st.write("Error: could not connect to the API")
+
 
 st.markdown("---")
 
@@ -74,6 +75,7 @@ st.markdown("---")
 
 col1, col2, col3 = st.columns([2,6,1])
 
+
 with col1:
     st.write("")
 
@@ -84,4 +86,3 @@ with col2:
 
 with col3:
     st.write("")
-
