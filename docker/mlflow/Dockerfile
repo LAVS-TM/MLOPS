@@ -6,4 +6,4 @@ COPY data /app/data
 COPY src /app/src
 WORKDIR /app/src
 EXPOSE 5000
-ENTRYPOINT [ "mlflow", "ui" ]
+ENTRYPOINT [ "mlflow", "ui", "--host", "0.0.0.0" ]
