@@ -17,7 +17,26 @@ Bonus: the model will be packaged in a docker container or will be deployed via 
 
 ## Usage
 
-### Training
+### Docker
+
+You can build the docker images with the following command:
+
+```bash
+docker-compose up -d --build
+```
+
+Once the docker images are built and started, you can access to the following services:
+- the streamlit front-end at the following address [http://localhost:8501](http://localhost:8501).
+- the web interface of the mlflow server at the following address [http://localhost:5000](http://localhost:5000).
+- the uvicorn api at the following address [http://localhost:8000](http://localhost:8000).
+
+To shutdown the docker containers, run the following command:
+
+```bash
+docker-compose down -v
+```
+
+### Manual
 
 The training of the model is in the `src/train_model.py` file. It is possible to train the model with the following command:
 
