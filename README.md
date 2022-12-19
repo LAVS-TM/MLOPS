@@ -1,5 +1,13 @@
 # MLOPS
 
+## AUTHORS
+
+Alexandre Lemonnier & Victor Simonin
+
+---
+
+## Subject
+
 In this project you will have to put into production a machine learning model of your choice.
 
 The deployment of the model must be done automatically via a simple script.
